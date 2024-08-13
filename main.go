@@ -13,6 +13,7 @@ func main() {
 	r.GET("/helloHandler", helloHandler)
 	r.GET("/books/:id/title", booksHandler)
 	r.GET("/query", queryHandler)
+	r.POST("/books", postBooksHandler)
 
 	r.Run()
 }
@@ -49,4 +50,13 @@ func queryHandler(c *gin.Context) {
 		"title": title,
 		"stok":  stok,
 	})
+}
+
+type BookInput struct {
+	Title string
+	Stok  int
+}
+
+func postBooksHandler(C *gin.Context) {
+
 }
