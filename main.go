@@ -9,7 +9,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(ctx *gin.Context) {
+	r.GET("/path1", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"name": "Egi",
 			"desc": "intern",
@@ -17,5 +17,13 @@ func main() {
 		})
 	})
 
-	r.Run()
+	r.GET("/path2", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{
+			"divisi":   "Engineer",
+			"position": "Backend",
+			"materi":   "Belajar API pada golang",
+		})
+	})
+
+	r.Run(":8888")
 }
