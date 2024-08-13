@@ -1,75 +1,36 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+type BookInput struct {
+	Title string `json:"title" binding:"required"`
+	Stok  int    `json:"stok" binding:"required"`
+}
+
 func main() {
 	r := gin.Default()
 
-	r.GET("/rootHandler", rootHandler)
-	r.GET("/helloHandler", helloHandler)
-	r.GET("/books/:id/title", booksHandler)
-	r.GET("/query", queryHandler)
 	r.POST("/books", postBooksHandler)
 
-	r.Run()
-}
-
-func rootHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"name": "Egi",
-		"desc": "intern",
-		"time": "10 month",
-	})
-}
-
-func helloHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"divisi":   "Engineer",
-		"position": "Backend",
-		"materi":   "Belajar API pada golang",
-	})
-}
-
-func booksHandler(c *gin.Context) {
-	id := c.Param("id")
-	title := c.Param("title")
-	c.JSON(http.StatusOK, gin.H{
-		"id":    id,
-		"title": title,
-	})
-}
-
-func queryHandler(c *gin.Context) {
-	title := c.Query("title")
-	stok := c.Query("stok")
-	c.JSON(http.StatusOK, gin.H{
-		"title": title,
-		"stok":  stok,
-	})
-}
-
-type BookInput struct {
-	Title    string
-	Stok     int
-	SubTitle string
+	r.Run() // Jalankan server di localhost:8080
 }
 
 func postBooksHandler(c *gin.Context) {
 	var bookinput BookInput
 
-	err := c.ShouldBindJSON(&bookinput)
-
-	if err != nil {
-		log.Fatal(err)
+	if err := c.ShouldBindJSON(&bookinput); err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		fmt.Println(err)
+		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"title":    bookinput.Title,
-		"stok":     bookinput.Stok,
-		"subtitle": bookinput.SubTitle,
+		"title": bookinput.Title,
+		"stok":  bookinput.Stok,
 	})
 }
