@@ -9,7 +9,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET("/path1", func(ctx *gin.Context) {
+	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"name": "Egi",
 			"desc": "intern",
