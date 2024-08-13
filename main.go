@@ -13,6 +13,7 @@ func main() {
 	r.GET("/helloHandler", helloHandler)
 	r.GET("/books/:id", booksHandler)
 	r.GET("/query", queryHandler)
+
 	r.Run()
 }
 
@@ -40,7 +41,7 @@ func booksHandler(c *gin.Context) {
 }
 
 func queryHandler(c *gin.Context) {
-	title := c.Param("title")
+	title := c.Query("title")
 	c.JSON(http.StatusOK, gin.H{
 		"title": title,
 	})
