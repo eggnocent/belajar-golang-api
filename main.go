@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type BookInput struct {
@@ -23,9 +24,20 @@ func main() {
 func postBooksHandler(c *gin.Context) {
 	var bookinput BookInput
 
-	if err := c.ShouldBindJSON(&bookinput); err != nil {
-		c.JSON(http.StatusBadRequest, err)
-		fmt.Println(err)
+	err := c.ShouldBindJSON(&bookinput)
+	if err != nil {
+		// Cek apakah error adalah error validasi
+		if validationErrors, ok := err.(validator.ValidationErrors); ok {
+			for _, e := range validationErrors {
+				errorMessage := fmt.Sprintf("error on field %s, condition: %s", e.Field(), e.ActualTag())
+				c.JSON(http.StatusBadRequest, errorMessage)
+				return
+			}
+
+		}
+
+		// Kembalikan pesan kesalahan umum
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
