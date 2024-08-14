@@ -25,17 +25,15 @@ func main() {
 	}
 
 	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
 
-	book := book.Book{
-		Title:       "Orkes pensil alis",
-		Description: "The best gigs performing",
-		Price:       100000,
-		Rating:      5,
-		Discount:    0,
+	bookRequest := book.BookRequest{
+		Title: "Jersey Vintage Bejo Sugiantoro",
+		Stok:  1,
 	}
 
-	bookRepository.Create(book)
-
+	//bookRepository.Create(book)
+	bookService.Create(bookRequest)
 	// FIND ALL
 	// books, err := bookRepository.FindAll()
 

@@ -20,3 +20,23 @@ func (s *service) FindAll() ([]Book, error) {
 
 	// return s.repository.FindAll() VERSI SIMPLE
 }
+
+func (s *service) FindByID(ID int) (Book, error) {
+	book, err := s.repository.FindByID(ID)
+	return book, err
+}
+
+func (s *service) Create(bookRequest BookRequest) (Book, error) {
+	// Assuming Stok is an int or can be directly converted to int
+	book := Book{
+		Title: bookRequest.Title,
+		Price: bookRequest.Stok, // Directly using Stok if it's already an int
+	}
+
+	newBook, err := s.repository.Create(book)
+	if err != nil {
+		return Book{}, err // Return an empty Book and the error if creation fails
+	}
+
+	return newBook, nil // Return the newly created book and nil error
+}
