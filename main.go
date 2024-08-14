@@ -26,12 +26,11 @@ func main() {
 
 	//CREATE
 	// book := book.Book{}
-	// book.Title = "nama-nama pemain takraw ter unik"
-	// book.Price = 120000
-	// book.Discount = 11
-	// book.Rating = 7
-	// book.Description = "sports science"
-
+	// book.Title = "jenis hewan bermata kaki"
+	// book.Price = 1312
+	// book.Discount = 1232
+	// book.Rating = 5
+	// book.Description = "animal say first"
 	// err = db.Create(&book).Error
 	// if err != nil {
 	// 	fmt.Println("====asdffghjkl=====")
@@ -87,18 +86,18 @@ func main() {
 	// }
 
 	// MENCARI BERDASARKN STRING
-	var books []book.Book
-	err = db.Debug().Where("title = ?", "bagaimana cara magicom tau jika nasi sudah matang").Find(&books).Error
-	if err != nil {
-		fmt.Println("====asdffghjkl=====")
-		fmt.Println("tidak dapat mencari data")
-		fmt.Println("====qwerttyuiop=====")
-	} else {
-		for _, book := range books {
-			fmt.Println("Title:", book.Title)
-			fmt.Printf("Book: %v\n", book)
-		}
-	}
+	// var books []book.Book
+	// err = db.Debug().Where("title = ?", "bagaimana cara magicom tau jika nasi sudah matang").Find(&books).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// } else {
+	// 	for _, book := range books {
+	// 		fmt.Println("Title:", book.Title)
+	// 		fmt.Printf("Book: %v\n", book)
+	// 	}
+	// }
 
 	//READ DATA TERAKHIR
 	// var booklast book.Book
@@ -113,16 +112,49 @@ func main() {
 	// fmt.Printf("book %v", booklast)
 
 	// READ DATA RANDOM
-	// var bookrandomly book.Book
-	// err = db.Debug().Take(&bookrandomly).Error
+	//   var bookrandomly book.Book
+
+	//   err = db.Debug().Take(&bookrandomly).Error
+	//   if err != nil {
+	//   	fmt.Println("====asdffghjkl=====")
+	//   	fmt.Println("tidak dapat mencari data")
+	//   	fmt.Println("====qwerttyuiop=====")
+	//   }
+	//   fmt.Println("title :", bookrandomly.Title)
+	//   fmt.Printf("book %v", bookrandomly)
+
+	// UPDATE DATA
+	// var bookupdate book.Book
+
+	// err = db.Debug().Where("id = ?", 2).First(&bookupdate).Error
 	// if err != nil {
 	// 	fmt.Println("====asdffghjkl=====")
 	// 	fmt.Println("tidak dapat mencari data")
 	// 	fmt.Println("====qwerttyuiop=====")
 	// }
-	// fmt.Println("title :", bookrandomly.Title)
-	// fmt.Printf("book %v", bookrandomly)
+	// bookupdate.Title = "Daftar pemain bola kasti unik"
+	// err = db.Save(&bookupdate).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat meng update data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
 
+	// DELETE DATA
+	var bookdelete book.Book
+
+	err = db.Debug().Where("id = ?", 3).First(&bookdelete).Error
+	if err != nil {
+		fmt.Println("====asdffghjkl=====")
+		fmt.Println("tidak dapat mencari data")
+		fmt.Println("====qwerttyuiop=====")
+	}
+	err = db.Delete(&bookdelete).Error
+	if err != nil {
+		fmt.Println("====asdffghjkl=====")
+		fmt.Println("tidak dapat menghapus data")
+		fmt.Println("====qwerttyuiop=====")
+	}
 	// Initialize Gin router
 	r := gin.Default()
 	v1 := r.Group("/v1")
