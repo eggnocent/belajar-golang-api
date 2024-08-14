@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"pustaka-api/book"
 	"pustaka-api/handler"
 
 	"github.com/gin-gonic/gin"
@@ -15,11 +16,14 @@ func main() {
 	dsn := "egiwira:12345@tcp(127.0.0.1:3306)/pustaka_api?charset=utf8mb4&parseTime=True&loc=Local"
 
 	// Open the database connection
-	_, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Database connection error: %v", err)
 	} else {
-		fmt.Println("Database connected")
+		fmt.Println("Database connect")
+	}
+	if err := db.AutoMigrate(&book.Book{}); err != nil {
+		log.Fatalf("Automigrate eror: %v", err)
 	}
 
 	// Initialize Gin router
