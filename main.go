@@ -40,21 +40,21 @@ func main() {
 	// }
 
 	//READ DATA PERTAMA
-	var bookfirst book.Book
+	// var bookfirst book.Book
 
-	err = db.First(&bookfirst).Error
-	if err != nil {
-		fmt.Println("====asdffghjkl=====")
-		fmt.Println("tidak dapat mencari data")
-		fmt.Println("====qwerttyuiop=====")
-	}
-	fmt.Println("title :", bookfirst.Title)
-	fmt.Printf("book %v", bookfirst)
+	// err = db.Debug().First(&bookfirst).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
+	// fmt.Println("title :", bookfirst.Title)
+	// fmt.Printf("book %v", bookfirst)
 
 	//READ DATA TERAKHIR
 	// var booklast book.Book
 
-	// err = db.Last(&booklast).Error
+	// err = db.Debug().Last(&booklast).Error
 	// if err != nil {
 	// 	fmt.Println("====asdffghjkl=====")
 	// 	fmt.Println("tidak dapat mencari data")
@@ -64,16 +64,15 @@ func main() {
 	// fmt.Printf("book %v", booklast)
 
 	// READ DATA RANDOM
-	// var bookrandomly book.Book
-
-	// err = db.Take(&bookrandomly).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// fmt.Println("title :", bookrandomly.Title)
-	// fmt.Printf("book %v", bookrandomly)
+	var bookrandomly book.Book
+	err = db.Debug().Take(&bookrandomly).Error
+	if err != nil {
+		fmt.Println("====asdffghjkl=====")
+		fmt.Println("tidak dapat mencari data")
+		fmt.Println("====qwerttyuiop=====")
+	}
+	fmt.Println("title :", bookrandomly.Title)
+	fmt.Printf("book %v", bookrandomly)
 
 	// Initialize Gin router
 	r := gin.Default()
