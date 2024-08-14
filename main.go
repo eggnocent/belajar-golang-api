@@ -34,7 +34,7 @@ func main() {
 		Discount:    0,
 	}
 
-	bookRepository.Create(book)
+	bookRepositry.Create(book)
 
 	// FIND ALL
 	// books, err := bookRepository.FindAll()
