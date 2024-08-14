@@ -45,9 +45,9 @@ func QueryHandler(c *gin.Context) {
 }
 
 func PostBooksHandler(c *gin.Context) {
-	var bookInput book.BookInput
+	var bookRequest book.BookRequest
 
-	if err := c.ShouldBindJSON(&bookInput); err != nil {
+	if err := c.ShouldBindJSON(&bookRequest); err != nil {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			var errors []string
 			for _, e := range validationErrors {
@@ -62,7 +62,7 @@ func PostBooksHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"title": bookInput.Title,
-		"stok":  bookInput.Stok,
+		"title": bookRequest.Title,
+		"stok":  bookRequest.Stok,
 	})
 }
