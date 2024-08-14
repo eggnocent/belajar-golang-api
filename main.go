@@ -12,10 +12,8 @@ import (
 )
 
 func main() {
-	// Data Source Name (DSN)
 	dsn := "egiwira:12345@tcp(127.0.0.1:3306)/pustaka_api?charset=utf8mb4&parseTime=True&loc=Local"
 
-	// Open the database connection
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Database connection error: %v", err)
@@ -24,6 +22,21 @@ func main() {
 	}
 	if err := db.AutoMigrate(&book.Book{}); err != nil {
 		log.Fatalf("Automigrate eror: %v", err)
+	}
+
+	//CREATE
+	book := book.Book{}
+	book.Title = "nama-nama pemain takraw ter unik"
+	book.Price = 120000
+	book.Discount = 11
+	book.Rating = 7
+	book.Description = "sports science"
+
+	err = db.Create(&book).Error
+	if err != nil {
+		fmt.Println("====asdffghjkl=====")
+		fmt.Println("tidak dapat menambah data")
+		fmt.Println("====qwerttyuiop=====")
 	}
 
 	// Initialize Gin router
