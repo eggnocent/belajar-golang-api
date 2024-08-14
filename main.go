@@ -24,7 +24,24 @@ func main() {
 		log.Fatalf("Automigrate eror: %v", err)
 	}
 
-	//bookRepository := book.NewRepository(db)
+	bookRepository := book.NewRepository(db)
+
+	book := book.Book{
+		Title:       "Orkes pensil alis",
+		Description: "The best gigs performing",
+		Price:       100000,
+		Rating:      5,
+		Discount:    0,
+	}
+
+	bookRepository.Create(book)
+
+	// FIND ALL
+	// books, err := bookRepository.FindAll()
+
+	// FIND BY ID
+	//books, err := bookRepository.FindByID(2)
+	//fmt.Println("Title:", books.Title)
 
 	//CREATE
 	// book := book.Book{}
@@ -143,20 +160,20 @@ func main() {
 	// }
 
 	// DELETE DATA
-	var bookdelete book.Book
+	// var bookdelete book.Book
 
-	err = db.Debug().Where("id = ?", 3).First(&bookdelete).Error
-	if err != nil {
-		fmt.Println("====asdffghjkl=====")
-		fmt.Println("tidak dapat mencari data")
-		fmt.Println("====qwerttyuiop=====")
-	}
-	err = db.Delete(&bookdelete).Error
-	if err != nil {
-		fmt.Println("====asdffghjkl=====")
-		fmt.Println("tidak dapat menghapus data")
-		fmt.Println("====qwerttyuiop=====")
-	}
+	// err = db.Debug().Where("id = ?", 3).First(&bookdelete).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
+	// err = db.Delete(&bookdelete).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat menghapus data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
 	// Initialize Gin router
 	r := gin.Default()
 	v1 := r.Group("/v1")
