@@ -24,6 +24,8 @@ func main() {
 		log.Fatalf("Automigrate eror: %v", err)
 	}
 
+	//bookRepository := book.NewRepository(db)
+
 	//CREATE
 	// book := book.Book{}
 	// book.Title = "jenis hewan bermata kaki"
