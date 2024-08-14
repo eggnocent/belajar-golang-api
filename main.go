@@ -24,6 +24,8 @@ func main() {
 
 	if err := db.AutoMigrate(&book.BookRequest{}); err != nil {
 		log.Fatalf("Automigrate error: %v", err)
+	} else {
+		fmt.Println("Migration completed")
 	}
 
 	// Initialize repository, service, and handler

@@ -1,6 +1,10 @@
 package book
 
-import "gorm.io/gorm"
+import (
+	"fmt"
+
+	"gorm.io/gorm"
+)
 
 // Repository interface defines the methods that any repository should implement.
 type Repository interface {
@@ -34,6 +38,11 @@ func (r *repository) FindByID(ID int) (BookRequest, error) {
 }
 
 func (r *repository) Create(book BookRequest) (BookRequest, error) {
-	err := r.db.Create(&book).Error
-	return book, err
+	fmt.Printf("Creating book with details: %+v\n", book) // Log book details
+	if err := r.db.Create(&book).Error; err != nil {
+		fmt.Printf("Error creating book: %v\n", err) // Log error
+		return BookRequest{}, err
+	}
+	fmt.Printf("Created Book with ID: %d\n", book.ID) // Log ID
+	return book, nil
 }

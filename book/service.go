@@ -1,5 +1,7 @@
 package book
 
+import "fmt"
+
 type Service interface {
 	FindAll() ([]BookRequest, error)
 	FindByID(ID int) (BookRequest, error)
@@ -23,21 +25,20 @@ func (s *service) FindByID(ID int) (BookRequest, error) {
 }
 
 func (s *service) Create(bookInput BookInput) (BookRequest, error) {
-	// Explicitly cast each field even though they seem to match in type.
-	// This can sometimes help in cases where Go's type system expects explicit confirmation.
 	book := BookRequest{
-		Title:       string(bookInput.Title),       // Cast string to string
-		Description: string(bookInput.Description), // Cast string to string
-		Price:       int(bookInput.Price),          // Cast int to int
-		Discount:    int(bookInput.Discount),       // Cast int to int
-		Rating:      int(bookInput.Rating),         // Cast int to int
+		Title:       bookInput.Title,
+		Description: bookInput.Description,
+		Price:       bookInput.Price,
+		Discount:    bookInput.Discount,
+		Rating:      bookInput.Rating,
 	}
 
-	// Save the new book to the repository
+	fmt.Printf("Creating book with details: %+v\n", book) // Logging book details
+
 	newBook, err := s.repository.Create(book)
 	if err != nil {
-		return BookRequest{}, err // Return an empty BookRequest and the error if creation fails
+		return BookRequest{}, err
 	}
 
-	return newBook, nil // Return the newly created book and nil error
+	return newBook, nil
 }
