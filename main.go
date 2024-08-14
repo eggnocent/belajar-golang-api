@@ -40,15 +40,65 @@ func main() {
 	// }
 
 	//READ DATA PERTAMA
-	var bookfirst book.Book
-	err = db.Debug().First(&bookfirst, 2).Error
+	// var bookfirst book.Book
+	// err = db.Debug().First(&bookfirst).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
+	// fmt.Println("title :", bookfirst.Title)
+	// fmt.Printf("book %v", bookfirst)
+
+	// READ DATA PRIMARY KEY
+	// var bookfirst book.Book
+	// err = db.Debug().First(&bookfirst, 1).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
+	// fmt.Println("title :", bookfirst.Title)
+	// fmt.Printf("book %v", bookfirst)
+
+	// READ DATA ""
+	// var bookfirst book.Book
+	// err = db.Debug().First(&bookfirst, "1").Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// }
+	// fmt.Println("title :", bookfirst.Title)
+	// fmt.Printf("book %v", bookfirst)
+
+	// READ DATA DENGAN ID YANG DITENTUKAN
+	// var books []book.Book // Declare a slice to hold multiple Book records
+	// err = db.Debug().Find(&books, []int{1, 2}).Error
+	// if err != nil {
+	// 	fmt.Println("====asdffghjkl=====")
+	// 	fmt.Println("tidak dapat mencari data")
+	// 	fmt.Println("====qwerttyuiop=====")
+	// } else {
+	// 	for _, book := range books {
+	// 		fmt.Println("Title:", book.Title)
+	// 		fmt.Printf("Book: %v\n", book)
+	// 	}
+	// }
+
+	// MENCARI BERDASARKN STRING
+	var books []book.Book
+	err = db.Debug().Where("title = ?", "bagaimana cara magicom tau jika nasi sudah matang").Find(&books).Error
 	if err != nil {
 		fmt.Println("====asdffghjkl=====")
 		fmt.Println("tidak dapat mencari data")
 		fmt.Println("====qwerttyuiop=====")
+	} else {
+		for _, book := range books {
+			fmt.Println("Title:", book.Title)
+			fmt.Printf("Book: %v\n", book)
+		}
 	}
-	fmt.Println("title :", bookfirst.Title)
-	fmt.Printf("book %v", bookfirst)
 
 	//READ DATA TERAKHIR
 	// var booklast book.Book
