@@ -26,14 +26,15 @@ func main() {
 
 	bookRepository := book.NewRepository(db)
 	bookService := book.NewService(bookRepository)
+	bookHandler := handler.NewBookHandler(bookService)
 
-	bookRequest := book.BookRequest{
-		Title: "Jersey Vintage Bejo Sugiantoro",
-		Stok:  1,
-	}
+	// bookRequest := book.BookRequest{
+	// 	Title: "Jersey Vintage Bejo Sugiantoro",
+	// 	Stok:  1,
+	// }
 
 	//bookRepository.Create(book)
-	bookService.Create(bookRequest)
+	//bookService.Create(bookRequest)
 	// FIND ALL
 	// books, err := bookRepository.FindAll()
 
@@ -176,11 +177,11 @@ func main() {
 	r := gin.Default()
 	v1 := r.Group("/v1")
 	{
-		v1.GET("/rootHandler", handler.RootHandler)
-		v1.GET("/helloHandler", handler.HelloHandler)
-		v1.GET("/books/:id/title", handler.BooksHandler)
-		v1.GET("/query", handler.QueryHandler)
-		v1.POST("/books", handler.PostBooksHandler)
+		v1.GET("/rootHandler", bookHandler.RootHandler)
+		v1.GET("/helloHandler", bookHandler.HelloHandler)
+		v1.GET("/books/:id/title", bookHandler.BooksHandler)
+		v1.GET("/query", bookHandler.QueryHandler)
+		v1.POST("/books", bookHandler.PostBooksHandler)
 	}
 
 	// Start the server
