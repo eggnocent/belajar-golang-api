@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
-	"pustaka-api/book"
-	"pustaka-api/handler"
+
+	"pustaka-api/book"    // Adjust the import path according to your project structure
+	"pustaka-api/handler" // Import your handler package
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -18,161 +19,18 @@ func main() {
 	if err != nil {
 		log.Fatalf("Database connection error: %v", err)
 	} else {
-		fmt.Println("Database connect")
-	}
-	if err := db.AutoMigrate(&book.Book{}); err != nil {
-		log.Fatalf("Automigrate eror: %v", err)
+		fmt.Println("Database connected")
 	}
 
+	if err := db.AutoMigrate(&book.BookRequest{}); err != nil {
+		log.Fatalf("Automigrate error: %v", err)
+	}
+
+	// Initialize repository, service, and handler
 	bookRepository := book.NewRepository(db)
 	bookService := book.NewService(bookRepository)
 	bookHandler := handler.NewBookHandler(bookService)
 
-	// bookRequest := book.BookRequest{
-	// 	Title: "Jersey Vintage Bejo Sugiantoro",
-	// 	Stok:  1,
-	// }
-
-	//bookRepository.Create(book)
-	//bookService.Create(bookRequest)
-	// FIND ALL
-	// books, err := bookRepository.FindAll()
-
-	// FIND BY ID
-	//books, err := bookRepository.FindByID(2)
-	//fmt.Println("Title:", books.Title)
-
-	//CREATE
-	// book := book.Book{}
-	// book.Title = "jenis hewan bermata kaki"
-	// book.Price = 1312
-	// book.Discount = 1232
-	// book.Rating = 5
-	// book.Description = "animal say first"
-	// err = db.Create(&book).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat menambah data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-
-	//READ DATA PERTAMA
-	// var bookfirst book.Book
-	// err = db.Debug().First(&bookfirst).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// fmt.Println("title :", bookfirst.Title)
-	// fmt.Printf("book %v", bookfirst)
-
-	// READ DATA PRIMARY KEY
-	// var bookfirst book.Book
-	// err = db.Debug().First(&bookfirst, 1).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// fmt.Println("title :", bookfirst.Title)
-	// fmt.Printf("book %v", bookfirst)
-
-	// READ DATA ""
-	// var bookfirst book.Book
-	// err = db.Debug().First(&bookfirst, "1").Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// fmt.Println("title :", bookfirst.Title)
-	// fmt.Printf("book %v", bookfirst)
-
-	// READ DATA DENGAN ID YANG DITENTUKAN
-	// var books []book.Book // Declare a slice to hold multiple Book records
-	// err = db.Debug().Find(&books, []int{1, 2}).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// } else {
-	// 	for _, book := range books {
-	// 		fmt.Println("Title:", book.Title)
-	// 		fmt.Printf("Book: %v\n", book)
-	// 	}
-	// }
-
-	// MENCARI BERDASARKN STRING
-	// var books []book.Book
-	// err = db.Debug().Where("title = ?", "bagaimana cara magicom tau jika nasi sudah matang").Find(&books).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// } else {
-	// 	for _, book := range books {
-	// 		fmt.Println("Title:", book.Title)
-	// 		fmt.Printf("Book: %v\n", book)
-	// 	}
-	// }
-
-	//READ DATA TERAKHIR
-	// var booklast book.Book
-
-	// err = db.Debug().Last(&booklast).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// fmt.Println("title :", booklast.Title)
-	// fmt.Printf("book %v", booklast)
-
-	// READ DATA RANDOM
-	//   var bookrandomly book.Book
-
-	//   err = db.Debug().Take(&bookrandomly).Error
-	//   if err != nil {
-	//   	fmt.Println("====asdffghjkl=====")
-	//   	fmt.Println("tidak dapat mencari data")
-	//   	fmt.Println("====qwerttyuiop=====")
-	//   }
-	//   fmt.Println("title :", bookrandomly.Title)
-	//   fmt.Printf("book %v", bookrandomly)
-
-	// UPDATE DATA
-	// var bookupdate book.Book
-
-	// err = db.Debug().Where("id = ?", 2).First(&bookupdate).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// bookupdate.Title = "Daftar pemain bola kasti unik"
-	// err = db.Save(&bookupdate).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat meng update data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-
-	// DELETE DATA
-	// var bookdelete book.Book
-
-	// err = db.Debug().Where("id = ?", 3).First(&bookdelete).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat mencari data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
-	// err = db.Delete(&bookdelete).Error
-	// if err != nil {
-	// 	fmt.Println("====asdffghjkl=====")
-	// 	fmt.Println("tidak dapat menghapus data")
-	// 	fmt.Println("====qwerttyuiop=====")
-	// }
 	// Initialize Gin router
 	r := gin.Default()
 	v1 := r.Group("/v1")

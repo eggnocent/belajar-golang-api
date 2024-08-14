@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"pustaka-api/book"
 
@@ -35,11 +36,28 @@ func (h *booksHandler) HelloHandler(c *gin.Context) {
 }
 
 func (h *booksHandler) BooksHandler(c *gin.Context) {
-	id := c.Param("id")
-	title := c.Param("title")
+	idParam := c.Param("id")
+
+	// Convert the ID from string to integer
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID parameter"})
+		return
+	}
+
+	// Fetch the book using the service
+	book, err := h.bookService.FindByID(id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+		return
+	}
+
+	// Respond with the book details
 	c.JSON(http.StatusOK, gin.H{
-		"id":    id,
-		"title": title,
+		"title":       book.Title,
+		"description": book.Description,
+		"price":       book.Price,
+		"rating":      book.Rating,
 	})
 }
 
@@ -53,9 +71,9 @@ func (h *booksHandler) QueryHandler(c *gin.Context) {
 }
 
 func (h *booksHandler) PostBooksHandler(c *gin.Context) {
-	var bookRequest book.BookRequest
+	var bookInput book.BookInput
 
-	if err := c.ShouldBindJSON(&bookRequest); err != nil {
+	if err := c.ShouldBindJSON(&bookInput); err != nil {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			var errors []string
 			for _, e := range validationErrors {
@@ -69,9 +87,9 @@ func (h *booksHandler) PostBooksHandler(c *gin.Context) {
 		return
 	}
 
-	book, err := h.bookService.Create(bookRequest)
+	book, err := h.bookService.Create(bookInput)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"errors": err})
+		c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
 		return
 	}
 

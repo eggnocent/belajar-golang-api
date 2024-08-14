@@ -1,6 +1,9 @@
 package book
 
-type BookRequest struct {
-	Title string `json:"title" binding:"required"`
-	Stok  int    `json:"stok" binding:"required"`
+type BookInput struct {
+	Title       string `json:"title" binding:"required"`
+	Description string `json:"description" binding:"required"`
+	Price       int    `json:"price" binding:"required"`
+	Discount    int    `json:"discount"`
+	Rating      int    `json:"rating"`
 }

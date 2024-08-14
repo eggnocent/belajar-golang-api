@@ -2,35 +2,38 @@ package book
 
 import "gorm.io/gorm"
 
+// Repository interface defines the methods that any repository should implement.
 type Repository interface {
-	FindAll() ([]Book, error)
-	FindByID(ID int) (Book, error)
-	Create(book Book) (Book, error)
+	FindAll() ([]BookRequest, error)
+	FindByID(ID int) (BookRequest, error)
+	Create(book BookRequest) (BookRequest, error)
 }
 
+// repository struct implements the Repository interface.
 type repository struct {
 	db *gorm.DB
 }
 
+// NewRepository creates a new instance of the repository.
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) FindAll() ([]Book, error) {
-
-	var books []Book
+// FindAll retrieves all BookRequest records from the database.
+func (r *repository) FindAll() ([]BookRequest, error) {
+	var books []BookRequest
 	err := r.db.Find(&books).Error
 	return books, err
 }
 
-func (r *repository) FindByID(ID int) (Book, error) {
-	var book Book
-	err := r.db.Find(&book, ID).Error
+// FindByID retrieves a single BookRequest record by its ID from the database.
+func (r *repository) FindByID(ID int) (BookRequest, error) {
+	var book BookRequest
+	err := r.db.First(&book, ID).Error
 	return book, err
 }
 
-func (r *repository) Create(book Book) (Book, error) {
-
+func (r *repository) Create(book BookRequest) (BookRequest, error) {
 	err := r.db.Create(&book).Error
 	return book, err
 }
